@@ -21,6 +21,8 @@ namespace TCRS.Web.Models.Entities
         public byte NumberOfCourseUnits { get; set; }
         public string LessonCode { get; set; }
         public string PresentationCode { get; set; }
+        public bool IsActive { get; set; }
+
 
 
         public virtual ICollection<ClassRoom> ClassRooms { get; set; }

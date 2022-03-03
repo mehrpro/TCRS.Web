@@ -18,6 +18,8 @@ namespace TCRS.Web.Models.Entities
 
         public int ClassTypeID { get; set; }
         public string ClassTypeTitle { get; set; }
+        public bool IsActive { get; set; }
+
 
 
         public virtual ICollection<ClassRegister> ClassRegisters { get; set; }

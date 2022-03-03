@@ -17,6 +17,8 @@ namespace TCRS.Web.Models.Entities
 
         public int TypeID { get; set; }
         public string ClassTimeTypeTitle { get; set; }
+        public bool IsActive { get; set; }
+
 
 
         public virtual ICollection<ClassRegister> ClassRegisters { get; set; }

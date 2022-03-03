@@ -2,46 +2,37 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using TCRS.Web.Models;
+using TCRS.Web.ExtentionService;
+using TCRS.Web.IServices;
 using TCRS.Web.Models.Entities;
+using TCRS.Web.ViewModels.ClassTypeViewModel;
 
 namespace TCRS.Web.Controllers
 {
     public class ClassTypesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IClassTypeService _classTypeService;
+        private readonly IMapper _mapper;
 
-        public ClassTypesController(ApplicationDbContext context)
+        public ClassTypesController(IClassTypeService classTypeService, IMapper mapper)
         {
-            _context = context;
+            _classTypeService = classTypeService;
+            _mapper = mapper;
         }
 
         // GET: ClassTypes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ClassTypes.ToListAsync());
+            var resultFind = await _classTypeService.GetAll();
+            var resultMap = _mapper.Map<IList<ClassTypeIndexViewModel>>(resultFind);
+            return View(resultMap);
         }
 
-        // GET: ClassTypes/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var classType = await _context.ClassTypes
-                .FirstOrDefaultAsync(m => m.ClassTypeID == id);
-            if (classType == null)
-            {
-                return NotFound();
-            }
-
-            return View(classType);
-        }
 
         // GET: ClassTypes/Create
         public IActionResult Create()
@@ -50,19 +41,19 @@ namespace TCRS.Web.Controllers
         }
 
         // POST: ClassTypes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClassTypeID,ClassTypeTitle,IsActive")] ClassType classType)
+        public async Task<IActionResult> Create([Bind("ClassTypeTitle")] ClassTypeCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(classType);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var resultMap = _mapper.Map<ClassType>(model);
+                resultMap.IsActive = true;
+                var result = await _classTypeService.Create(resultMap);
+                if (result) return RedirectToAction(nameof(Index));
+                ModelState.AddModelError("", PublicValues.ErrorSave);
             }
-            return View(classType);
+            return View(model);
         }
 
         // GET: ClassTypes/Edit/5
@@ -79,6 +70,15 @@ namespace TCRS.Web.Controllers
                 return NotFound();
             }
             return View(classType);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> IsUsedClassTypeTitle(string ClassTypeTitle)
+        {
+            var result = await _classTypeService.GetByName(ClassTypeTitle);
+            return (result == false) ? Json(true) : Json("این ایمیل قبلا در سایت ثبت نام شده است");
         }
 
         // POST: ClassTypes/Edit/5

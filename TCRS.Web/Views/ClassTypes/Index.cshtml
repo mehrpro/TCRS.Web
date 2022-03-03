@@ -1,13 +1,13 @@
-﻿@model IEnumerable<TCRS.Web.Models.Entities.ClassType>
+﻿@model IEnumerable<TCRS.Web.ViewModels.ClassTypeViewModel.ClassTypeIndexViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "فهرست";
 }
 
-<h1>Index</h1>
+<h3>نوع برگزاری کلاس</h3>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-controller="ClassTypes" asp-action="Create" class="btn btn-primary">افزودن</a>
 </p>
 <table class="table">
     <thead>
@@ -22,20 +22,21 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClassTypeTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ClassTypeID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ClassTypeID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ClassTypeID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ClassTypeTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ClassTypeID">ویرایش</a> |
+                    <a asp-action="Details" asp-route-id="@item.ClassTypeID">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ClassTypeID">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -18,7 +18,7 @@ namespace TCRS.Web.Models.Configure
 
             builder.HasData(
                 new ClassType() { ClassTypeID = 1, ClassTypeTitle = @"حضوری" },
-                new ClassType() { ClassTypeID = 1, ClassTypeTitle = @"مجازی" }
+                new ClassType() { ClassTypeID = 2, ClassTypeTitle = @"مجازی" }
             );
         }
     }

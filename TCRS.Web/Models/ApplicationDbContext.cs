@@ -10,7 +10,7 @@ using TCRS.Web.Models.Entities;
 
 namespace TCRS.Web.Models
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
+    public class ApplicationDbContext : IdentityDbContext<Person, AppRole, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

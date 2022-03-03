@@ -13,8 +13,8 @@ namespace TCRS.Web.Models.Configure
             builder.Property(x => x.DayName).HasMaxLength(20);
             builder.Property(x => x.DayName).HasMaxLength(20);
             builder.Property(x => x.StartCourse).HasColumnType("datetime");
-            builder.Property(x => x.StartTime).HasColumnType("time(0)");
-            builder.Property(x => x.EndTime).HasColumnType("time(0)");
+            builder.Property(x => x.StartTime).HasColumnType("datetime");
+            builder.Property(x => x.EndTime).HasColumnType("datetime");
             builder.Property(x => x.LessonID_FK).IsRequired();
             builder.Property(x => x.DayOfWeek).IsRequired();
         }

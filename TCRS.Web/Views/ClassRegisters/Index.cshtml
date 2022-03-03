@@ -1,0 +1,77 @@
+﻿@model IEnumerable<TCRS.Web.Models.Entities.ClassRegister>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassRoomID_FK)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonID_FK)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassTimeType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassRoomID_FK)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonID_FK)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassType.ClassTypeID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassTimeType.ClassTimeTypeTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.RegisterID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.RegisterID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.RegisterID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

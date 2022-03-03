@@ -10,8 +10,8 @@ namespace TCRS.Web.Models.Configure
         {
             builder.HasKey(x => x.RegisterID);
             builder.Property(x => x.RegisterID).IsRequired().ValueGeneratedOnAdd();
-            builder.Property(x => x.StartTime).HasColumnType("time(0)");
-            builder.Property(x => x.EndTime).HasColumnType("time(0)");
+            builder.Property(x => x.StartTime).HasColumnType("datetime");
+            builder.Property(x => x.EndTime).HasColumnType("datetime");
             builder.Property(x => x.ClassRoomID_FK).IsRequired();
             builder.Property(x => x.ClassTypeID_FK).IsRequired();
             builder.Property(x => x.PersonID_FK).IsRequired();

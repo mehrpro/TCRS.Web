@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TCRS.Web.Models.Entities;
+using TCRS.Web.ViewModels.ClassTimeTypeViewModel;
 using TCRS.Web.ViewModels.ClassTypeViewModel;
 
 namespace TCRS.Web.ExtentionService
@@ -13,6 +14,12 @@ namespace TCRS.Web.ExtentionService
         public AutoMapperProfile()
         {
             CreateMap<ClassTypeIndexViewModel, ClassType>().ReverseMap();
+            CreateMap<ClassTypeCreateViewModel, ClassType>().ReverseMap();
+            CreateMap<ClassTypeEditViewModel, ClassType>().ReverseMap();
+            CreateMap<ClassTimeType, ClassTimeTypeIndexViewModel>().ReverseMap();
+            CreateMap<ClassTimeType, ClassTimeTypeCreateViewModel>().ReverseMap();
+            CreateMap<ClassTimeType, ClassTimeTypeEditViewModel>().ReverseMap();
+
         }
     }
 }

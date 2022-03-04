@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PersianTranslation.Identity;
 using TCRS.Web.Models;
+using TCRS.Web.IRepositories;
+using TCRS.Web.IServices;
 
 namespace TCRS.Web
 {
@@ -27,6 +29,11 @@ namespace TCRS.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IClassTypeService, ClassTypeService>();
+            services.AddTransient<IClassRegisterService, ClassRegisterService>();
+
+
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContextPool<ApplicationDbContext>(opts =>
                 opts.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

@@ -14,6 +14,7 @@ namespace TCRS.Web.IServices
         Task<bool> Update(ClassType model);
         Task<ClassType> GetById(int Id);
         Task<bool> GetByName(string name);
+        Task<ClassType> GetByCondition(Expression<Func<ClassType, bool>> where);
         Task<IEnumerable<ClassType>> GetAll();
         Task<IEnumerable<ClassType>> GetAllByCondition(Expression<Func<ClassType, bool>> where);
         Task<bool> DisableEnable(int Id);
@@ -55,6 +56,11 @@ namespace TCRS.Web.IServices
             return await _unitOfWork.ClassType.FindAllByCondition(where);
         }
 
+        public async Task<ClassType> GetByCondition(Expression<Func<ClassType, bool>> where)
+        {
+            return await _unitOfWork.ClassType.FirstOrDefaultAsync(where);
+        }
+
         public async Task<ClassType> GetById(int Id)
         {
             return await _unitOfWork.ClassType.FindByIdAsync(Id);
@@ -68,7 +74,7 @@ namespace TCRS.Web.IServices
 
         public async Task<bool> Update(ClassType model)
         {
-            _unitOfWork.ClassType.UpdateDisconected(model);
+            _unitOfWork.ClassType.UpdateClassType(model);
             var result = await _unitOfWork.CommitAsync();
             return Convert.ToBoolean(result);
         }

@@ -19,7 +19,6 @@ namespace TCRS.Web.IRepositories
         Task AddRangeAsync(IEnumerable<TEntity> entities);
         void Remove(TEntity entity);
         void RemoveRange(IEnumerable<TEntity> entities);
-        void UpdateDisconected(TEntity entity);
     }
 
     public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
@@ -76,13 +75,7 @@ namespace TCRS.Web.IRepositories
             return Context.Set<TEntity>().SingleOrDefaultAsync(predicate);
         }
 
-        public void UpdateDisconected(TEntity entity)
-        {
-            //_context.Students.Attach(student);
-            //_context.Entry(student).State = EntityState.Modified;
-            Context.Set<TEntity>().Attach(entity);
-            Context.Entry(entity).State = EntityState.Modified;
-        }
+
 
         public async Task<IEnumerable<TEntity>> FindAllByCondition(Expression<Func<TEntity, bool>> predicate)
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace TCRS.Web.IRepositories
 {
     public interface IClassTimeTypeRep : IRepository<ClassTimeType>
     {
+        void UpdateClassType(ClassTimeType model);
     }
 
     public class ClassTimeTypeRep : Repository<ClassTimeType>, IClassTimeTypeRep
@@ -20,6 +22,16 @@ namespace TCRS.Web.IRepositories
         public ApplicationDbContext ApplicationDbContext
         {
             get { return Context as ApplicationDbContext; }
+        }
+
+        public void UpdateClassType(ClassTimeType model)
+        {
+            var local = ApplicationDbContext.ClassTimeTypes.Local.FirstOrDefault(entry => entry.TypeID.Equals(model.TypeID));
+            if (local != null)
+            {
+                ApplicationDbContext.Entry(local).State = EntityState.Detached;
+            }
+            ApplicationDbContext.Entry(model).State = EntityState.Modified;
         }
     }
 }

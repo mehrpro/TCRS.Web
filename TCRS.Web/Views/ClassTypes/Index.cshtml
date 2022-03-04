@@ -29,12 +29,18 @@
                     @Html.DisplayFor(modelItem => item.ClassTypeTitle)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IsActive)
+                    @if (item.IsActive)
+                    {
+                        <a class="btn btn-warning btn-sm">فعال</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-warning btn-sm">غیرفعال</a>
+                    }
+
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.ClassTypeID">ویرایش</a> |
-                    <a asp-action="Details" asp-route-id="@item.ClassTypeID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.ClassTypeID">Delete</a>
+                    <a asp-action="Edit" class="btn btn-outline-primary btn-sm" asp-route-id="@item.ClassTypeID">ویرایش</a>
                 </td>
             </tr>
         }

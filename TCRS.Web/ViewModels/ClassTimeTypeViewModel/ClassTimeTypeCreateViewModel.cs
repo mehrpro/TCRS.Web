@@ -5,14 +5,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TCRS.Web.ViewModels.ClassTypeViewModel
+namespace TCRS.Web.ViewModels.ClassTimeTypeViewModel
 {
-    public class ClassTypeCreateViewModel
+    public class ClassTimeTypeCreateViewModel
     {
+        [Remote("IsUsedClassTimeTypeTitle", "ClassTimeTypes", HttpMethod = "POST", AdditionalFields = "__RequestVerificationToken")]
         [Display(Name = "عنوان")]
         [Required(ErrorMessage = "{0} باید وارد شود")]
         [MaxLength(100)]
-        [Remote("IsUsedClassTypeTitle", "ClassTypes", HttpMethod = "POST", AdditionalFields = "__RequestVerificationToken")]
-        public string ClassTypeTitle { get; set; }
+        public string ClassTimeTypeTitle { get; set; }
+
     }
 }

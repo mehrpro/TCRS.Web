@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace TCRS.Web.IRepositories
 {
     public interface ILessonRep : IRepository<Lesson>
     {
+
     }
     public class LessonRep : Repository<Lesson>, ILessonRep
     {
@@ -21,5 +23,7 @@ namespace TCRS.Web.IRepositories
         {
             get { return Context as ApplicationDbContext; }
         }
+
+
     }
 }

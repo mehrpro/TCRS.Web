@@ -63,13 +63,13 @@ namespace TCRS.Web.Controllers
             {
                 return NotFound();
             }
-
-            var classType = await _context.ClassTypes.FindAsync(id);
-            if (classType == null)
+            var resultFind = await _classTypeService.GetById((int)id);
+            var resultMap = _mapper.Map<ClassTypeEditViewModel>(resultFind);
+            if (resultMap == null)
             {
                 return NotFound();
             }
-            return View(classType);
+            return View(resultMap);
         }
 
 
@@ -82,11 +82,9 @@ namespace TCRS.Web.Controllers
         }
 
         // POST: ClassTypes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClassTypeID,ClassTypeTitle,IsActive")] ClassType classType)
+        public async Task<IActionResult> Edit(int id, [Bind("ClassTypeID,ClassTypeTitle,IsActive")] ClassTypeEditViewModel classType)
         {
             if (id != classType.ClassTypeID)
             {
@@ -95,59 +93,23 @@ namespace TCRS.Web.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                var resultIf = await _classTypeService.GetByCondition(x => x.ClassTypeTitle == classType.ClassTypeTitle);
+                if (resultIf == null || resultIf.ClassTypeID == classType.ClassTypeID)
                 {
-                    _context.Update(classType);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ClassTypeExists(classType.ClassTypeID))
-                    {
-                        return NotFound();
-                    }
+                    var resultMap = _mapper.Map<ClassType>(classType);
+                    var resultUpdate = await _classTypeService.Update(resultMap);
+                    if (resultUpdate)
+                        return RedirectToAction("Index");
                     else
-                    {
-                        throw;
-                    }
+                        ModelState.AddModelError("", PublicValues.ErrorSave);
                 }
-                return RedirectToAction(nameof(Index));
+                else
+                    ModelState.AddModelError("", "این عنوان تکراری است!");
             }
+            else
+                ModelState.AddModelError("", PublicValues.ErrorSave);
             return View(classType);
         }
 
-        // GET: ClassTypes/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var classType = await _context.ClassTypes
-                .FirstOrDefaultAsync(m => m.ClassTypeID == id);
-            if (classType == null)
-            {
-                return NotFound();
-            }
-
-            return View(classType);
-        }
-
-        // POST: ClassTypes/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var classType = await _context.ClassTypes.FindAsync(id);
-            _context.ClassTypes.Remove(classType);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool ClassTypeExists(int id)
-        {
-            return _context.ClassTypes.Any(e => e.ClassTypeID == id);
-        }
     }
 }

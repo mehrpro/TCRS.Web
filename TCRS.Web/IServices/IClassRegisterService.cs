@@ -60,9 +60,9 @@ namespace TCRS.Web.IServices
 
         public async Task<bool> Update(ClassRegister model)
         {
-            _unitOfWork.ClassRegister.UpdateDisconected(model);
+            _unitOfWork.ClassRegister.UpdateClassRegister(model);
             var result = await _unitOfWork.CommitAsync();
-            return Convert.ToBoolean(result);
+            return true;
         }
     }
 }

@@ -58,7 +58,6 @@
   <ItemGroup>
     <Folder Include="ViewModels\ClassRegisterViewModel\" />
     <Folder Include="ViewModels\ClassRoomViewModel\" />
-    <Folder Include="ViewModels\ClassTimeTypeViewModel\" />
     <Folder Include="ViewModels\LessonViewModel\" />
     <Folder Include="ViewModels\AccountViewModel\" />
     <Folder Include="ViewModels\WeeklyScheduleViewModel\" />

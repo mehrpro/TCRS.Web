@@ -1,59 +1,49 @@
-﻿@model IEnumerable<TCRS.Web.Models.Entities.Lesson>
+﻿@model IEnumerable<TCRS.Web.ViewModels.LessonViewModel.LessonIndexViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "فهرست دروس";
 }
 
-<h1>Index</h1>
+
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">جدید</a>
 </p>
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LessonCode)
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.LessonTitle)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NumberOfCourseUnits)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LessonCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PresentationCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </th>
+
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LessonTitle)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NumberOfCourseUnits)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LessonCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PresentationCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.LessonID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.LessonID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.LessonID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LessonCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfCourseUnits)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LessonTitle)
+                </td>
+
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.LessonID">ویرایش</a> |
+                    <a asp-action="Details" asp-route-id="@item.LessonID">اساتید</a> |
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

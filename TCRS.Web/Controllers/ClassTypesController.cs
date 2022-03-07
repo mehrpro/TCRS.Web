@@ -78,7 +78,7 @@ namespace TCRS.Web.Controllers
         public async Task<IActionResult> IsUsedClassTypeTitle(string ClassTypeTitle)
         {
             var result = await _classTypeService.GetByName(ClassTypeTitle);
-            return (result == false) ? Json(true) : Json("این ایمیل قبلا در سایت ثبت نام شده است");
+            return (result == false) ? Json(true) : Json("این عنوان قبلا در سایت ثبت شده است");
         }
 
         // POST: ClassTypes/Edit/5

@@ -2,27 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using TCRS.Web.IServices;
 using TCRS.Web.Models;
 using TCRS.Web.Models.Entities;
+using TCRS.Web.ViewModels.LessonViewModel;
 
 namespace TCRS.Web.Controllers
 {
     public class LessonsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ILessonService _lessonService;
+        private readonly IMapper _mapper;
 
-        public LessonsController(ApplicationDbContext context)
+        public LessonsController(ILessonService lessonService, IMapper mapper)
         {
-            _context = context;
+            _mapper = mapper;
+            _lessonService = lessonService;
         }
 
         // GET: Lessons
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Lessons.ToListAsync());
+            var resultAll = await _lessonService.GetAll();
+            var resultMap = _mapper.Map<IEnumerable<LessonIndexViewModel>>(resultAll);
+            return View(resultMap);
         }
 
         // GET: Lessons/Details/5
@@ -50,8 +57,6 @@ namespace TCRS.Web.Controllers
         }
 
         // POST: Lessons/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("LessonID,LessonTitle,NumberOfCourseUnits,LessonCode,PresentationCode,IsActive")] Lesson lesson)

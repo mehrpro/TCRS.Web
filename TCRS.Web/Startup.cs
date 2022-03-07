@@ -32,7 +32,8 @@ namespace TCRS.Web
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IClassTypeService, ClassTypeService>();
             services.AddTransient<IClassRegisterService, ClassRegisterService>();
-
+            services.AddTransient<IClassTimeTypeService, ClassTimeTypeService>();
+            services.AddTransient<ILessonService, LessonService>();
 
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContextPool<ApplicationDbContext>(opts =>

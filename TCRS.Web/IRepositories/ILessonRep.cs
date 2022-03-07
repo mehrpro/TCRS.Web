@@ -10,7 +10,7 @@ namespace TCRS.Web.IRepositories
 {
     public interface ILessonRep : IRepository<Lesson>
     {
-
+        void UpdateLesson(Lesson model);
     }
     public class LessonRep : Repository<Lesson>, ILessonRep
     {
@@ -25,5 +25,14 @@ namespace TCRS.Web.IRepositories
         }
 
 
+        public void UpdateLesson(Lesson model)
+        {
+            var local = ApplicationDbContext.Lessons.Local.FirstOrDefault(entry => entry.LessonID.Equals(model.LessonID));
+            if (local != null)
+            {
+                ApplicationDbContext.Entry(local).State = EntityState.Detached;
+            }
+            ApplicationDbContext.Entry(model).State = EntityState.Modified;
+        }
     }
 }

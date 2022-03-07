@@ -30,18 +30,25 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LessonCode)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NumberOfCourseUnits)
+                    @item.LessonCode
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.LessonTitle)
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumberOfCourseUnits)
+                </td>
 
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.LessonID">ویرایش</a> |
-                    <a asp-action="Details" asp-route-id="@item.LessonID">اساتید</a> |
+                    <a class="btn btn-outline-primary btn-sm" asp-action="Details" asp-route-id="@item.LessonID">جزئیات</a> |
+                    @if (item.IsActive)
+                    {
+                        <a class="btn btn-warning btn-sm">فعال</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-warning btn-sm">غیرفعال</a>
+                    }
                 </td>
             </tr>
         }

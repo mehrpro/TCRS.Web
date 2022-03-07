@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using TCRS.Web.ExtentionService;
 using TCRS.Web.IServices;
 using TCRS.Web.Models;
 using TCRS.Web.Models.Entities;
@@ -36,123 +37,93 @@ namespace TCRS.Web.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var lesson = await _context.Lessons
-                .FirstOrDefaultAsync(m => m.LessonID == id);
+            var lesson = await _lessonService.GetById((int)id);
             if (lesson == null)
-            {
                 return NotFound();
-            }
+            var resultMap = _mapper.Map<LessonEditViewModel>(lesson);
 
-            return View(lesson);
+            return View(resultMap);
         }
 
         // GET: Lessons/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         // POST: Lessons/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LessonID,LessonTitle,NumberOfCourseUnits,LessonCode,PresentationCode,IsActive")] Lesson lesson)
+        public async Task<IActionResult> Create([Bind("LessonTitle,NumberOfCourseUnits,LessonCode,PresentationCode")] LessonCreateViewModel model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(lesson);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var resultMap = _mapper.Map<Lesson>(model);
+                var resultCreate = await _lessonService.Create(resultMap);
+                if (resultCreate)
+                    return RedirectToAction(nameof(Index));
             }
-            return View(lesson);
+            ModelState.AddModelError("", PublicValues.ErrorSave);
+            return View(model);
         }
 
         // GET: Lessons/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
-
-            var lesson = await _context.Lessons.FindAsync(id);
+            var lesson = await _lessonService.GetById((int)id);
             if (lesson == null)
-            {
                 return NotFound();
-            }
-            return View(lesson);
+            var resultMap = _mapper.Map<LessonEditViewModel>(lesson);
+            return View(resultMap);
         }
 
-        // POST: Lessons/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("LessonID,LessonTitle,NumberOfCourseUnits,LessonCode,PresentationCode,IsActive")] Lesson lesson)
+        public async Task<IActionResult> IsUsedLessonCode(string lessonCode)
         {
-            if (id != lesson.LessonID)
-            {
-                return NotFound();
-            }
+            var result = await _lessonService.AnyByCondition(x => x.LessonCode == lessonCode);
+            return result ? Json("این کد درس قبلا در سایت ثبت  شده است") : Json(true);
+        }
 
+
+        // POST: Lessons/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("LessonID,LessonTitle,NumberOfCourseUnits,LessonCode,PresentationCode,IsActive")] LessonEditViewModel model)
+        {
+            if (id != model.LessonID)
+                return NotFound();
+            var lesson = await _lessonService.GetById((int)id);
+            if (lesson == null)
+                return NotFound();
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(lesson);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!LessonExists(lesson.LessonID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                var resultMap = _mapper.Map<Lesson>(model);
+                var resultUpdate = await _lessonService.Update(resultMap);
+                if (resultUpdate)
+                    return RedirectToAction("Index");
+                ModelState.AddModelError("", PublicValues.ErrorSave);
             }
-            return View(lesson);
+            else
+                ModelState.AddModelError("", PublicValues.ErrorSave);
+            return View(model);
         }
 
-        // GET: Lessons/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var lesson = await _context.Lessons
-                .FirstOrDefaultAsync(m => m.LessonID == id);
-            if (lesson == null)
-            {
-                return NotFound();
-            }
 
-            return View(lesson);
-        }
 
-        // POST: Lessons/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("Index")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var lesson = await _context.Lessons.FindAsync(id);
-            _context.Lessons.Remove(lesson);
-            await _context.SaveChangesAsync();
+            var lesson = await _lessonService.GetById((int)id);
+            if (lesson == null)
+                return NotFound();
+            var result = await _lessonService.DisableEnable(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool LessonExists(int id)
-        {
-            return _context.Lessons.Any(e => e.LessonID == id);
-        }
+
     }
 }

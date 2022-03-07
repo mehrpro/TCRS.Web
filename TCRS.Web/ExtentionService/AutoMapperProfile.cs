@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using TCRS.Web.Models.Entities;
 using TCRS.Web.ViewModels.ClassTimeTypeViewModel;
 using TCRS.Web.ViewModels.ClassTypeViewModel;
+using TCRS.Web.ViewModels.LessonViewModel;
 
 namespace TCRS.Web.ExtentionService
 {
@@ -19,6 +20,10 @@ namespace TCRS.Web.ExtentionService
             CreateMap<ClassTimeType, ClassTimeTypeIndexViewModel>().ReverseMap();
             CreateMap<ClassTimeType, ClassTimeTypeCreateViewModel>().ReverseMap();
             CreateMap<ClassTimeType, ClassTimeTypeEditViewModel>().ReverseMap();
+            CreateMap<Lesson, LessonCreateViewModel>().ReverseMap();
+            CreateMap<Lesson, LessonIndexViewModel>().ReverseMap();
+            CreateMap<Lesson, LessonEditViewModel>().ReverseMap();
+
 
         }
     }

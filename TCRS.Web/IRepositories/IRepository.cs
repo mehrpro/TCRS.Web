@@ -19,6 +19,7 @@ namespace TCRS.Web.IRepositories
         Task AddRangeAsync(IEnumerable<TEntity> entities);
         void Remove(TEntity entity);
         void RemoveRange(IEnumerable<TEntity> entities);
+        Task<bool> AnyByCondition(Expression<Func<TEntity, bool>> predicate);
     }
 
     public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : class
@@ -68,6 +69,11 @@ namespace TCRS.Web.IRepositories
         public void RemoveRange(IEnumerable<TEntity> entities)
         {
             Context.Set<TEntity>().RemoveRange(entities);
+        }
+
+        public async Task<bool> AnyByCondition(Expression<Func<TEntity, bool>> predicate)
+        {
+            return await Context.Set<TEntity>().AnyAsync(predicate);
         }
 
         public Task<TEntity> SingleOrDefaultAsync(Expression<Func<TEntity, bool>> predicate)

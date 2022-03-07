@@ -60,15 +60,11 @@ namespace TCRS.Web.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
             var resultFind = await _classTypeService.GetById((int)id);
-            var resultMap = _mapper.Map<ClassTypeEditViewModel>(resultFind);
-            if (resultMap == null)
-            {
+            if (resultFind == null)
                 return NotFound();
-            }
+            var resultMap = _mapper.Map<ClassTypeEditViewModel>(resultFind);
             return View(resultMap);
         }
 

@@ -15,9 +15,10 @@ namespace TCRS.Web.IServices
         Task<bool> Update(Lesson model);
         Task<Lesson> GetById(int Id);
         Task<bool> GetByName(string name);
-        Task<Lesson> GetByCondition(Expression<Func<Lesson, bool>> where);
+        Task<Lesson> GetByCondition(Expression<Func<Lesson, bool>> expression);
         Task<IEnumerable<Lesson>> GetAll();
-        Task<IEnumerable<Lesson>> GetAllByCondition(Expression<Func<Lesson, bool>> where);
+        Task<IEnumerable<Lesson>> GetAllByCondition(Expression<Func<Lesson, bool>> expression);
+        Task<bool> AnyByCondition(Expression<Func<Lesson, bool>> expression);
         Task<bool> DisableEnable(int Id);
     }
 
@@ -37,6 +38,11 @@ namespace TCRS.Web.IServices
             return Convert.ToBoolean(result);
         }
 
+        public async Task<bool> AnyByCondition(Expression<Func<Lesson, bool>> expression)
+        {
+            return await _unitOfWork.Lesson.AnyByCondition(expression);
+        }
+
         public async Task<bool> DisableEnable(int Id)
         {
             var resultFind = await _unitOfWork.Lesson.FindByIdAsync(Id);
@@ -51,14 +57,14 @@ namespace TCRS.Web.IServices
             return await _unitOfWork.Lesson.FindAllAsync();
         }
 
-        public async Task<IEnumerable<Lesson>> GetAllByCondition(Expression<Func<Lesson, bool>> where)
+        public async Task<IEnumerable<Lesson>> GetAllByCondition(Expression<Func<Lesson, bool>> expression)
         {
-            return await _unitOfWork.Lesson.FindAllByCondition(where);
+            return await _unitOfWork.Lesson.FindAllByCondition(expression);
         }
 
-        public async Task<Lesson> GetByCondition(Expression<Func<Lesson, bool>> where)
+        public async Task<Lesson> GetByCondition(Expression<Func<Lesson, bool>> expression)
         {
-            return await _unitOfWork.Lesson.FirstOrDefaultAsync(where);
+            return await _unitOfWork.Lesson.FirstOrDefaultAsync(expression);
         }
 
         public async Task<Lesson> GetById(int Id)
@@ -68,16 +74,16 @@ namespace TCRS.Web.IServices
 
         public async Task<bool> GetByName(string name)
         {
-            var resultFind = await _unitOfWork.Lesson.FirstOrDefaultAsync(x => x.LessonTitle == name);
+            var resultFind = await _unitOfWork.Lesson.FirstOrDefaultAsync(x => x.LessonCode == name);
             return Convert.ToBoolean(resultFind);
         }
 
         public async Task<bool> Update(Lesson model)
         {
-            //_unitOfWork.Lesson.UpdateClassType(model);
-            //var result = await _unitOfWork.CommitAsync();
-            //return Convert.ToBoolean(result);
-            return true;
+            _unitOfWork.Lesson.UpdateLesson(model);
+            var result = await _unitOfWork.CommitAsync();
+            return Convert.ToBoolean(result);
+
         }
     }
 }

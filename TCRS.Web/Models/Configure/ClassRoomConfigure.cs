@@ -13,6 +13,7 @@ namespace TCRS.Web.Models.Configure
             builder.Property(x => x.ClassID).IsRequired().ValueGeneratedOnAdd();
             builder.Property(x => x.PersonID_FK).IsRequired();
             builder.Property(x => x.LessonID_FK).IsRequired();
+            builder.Property(x => x.SemesterID_FK).IsRequired();
             builder.Property(x => x.RegisterDate).HasColumnType("datetime");
         }
     }

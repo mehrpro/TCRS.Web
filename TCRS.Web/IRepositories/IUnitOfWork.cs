@@ -12,6 +12,8 @@ namespace TCRS.Web.IRepositories
         IClassTimeTypeRep ClassTimeType { get; }
         ILessonRep Lesson { get; }
         IWeeklyScheduleRep WeeklySchedule { get; }
+        IAcademicYearRep AcademicYear { get; }
+        ISemesterRep Semester { get; }
         Task<int> CommitAsync();
     }
 
@@ -25,6 +27,8 @@ namespace TCRS.Web.IRepositories
         private IClassTimeTypeRep _classTimeTypeRep;
         private ILessonRep _lessonRep;
         private IWeeklyScheduleRep _weeklyScheduleRep;
+        private IAcademicYearRep _academicYearRep;
+        private ISemesterRep _semesterRep;
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
@@ -36,6 +40,9 @@ namespace TCRS.Web.IRepositories
         public IClassTimeTypeRep ClassTimeType => _classTimeTypeRep ??= new ClassTimeTypeRep(_context);
         public ILessonRep Lesson => _lessonRep ??= new LessonRep(_context);
         public IWeeklyScheduleRep WeeklySchedule => _weeklyScheduleRep ??= new WeeklyScheduleRep(_context);
+        public IAcademicYearRep AcademicYear => _academicYearRep ??= new AcademicYearRep(_context);
+        public ISemesterRep Semester => _semesterRep ??= new SemesterRep(_context);
+
         public Task<int> CommitAsync()
         {
             return _context.SaveChangesAsync();

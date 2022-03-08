@@ -29,6 +29,8 @@ namespace TCRS.Web.Models
             builder.ApplyConfiguration(new PersonConfigure());
             builder.ApplyConfiguration(new WeeklyScheduleConfigure());
             builder.ApplyConfiguration(new AppRoleConfigure());
+            builder.ApplyConfiguration(new AcademicYearConfigure());
+            builder.ApplyConfiguration(new SemesterConfigure());
 
         }
 
@@ -40,6 +42,8 @@ namespace TCRS.Web.Models
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<WeeklySchedule> WeeklySchedules { get; set; }
         public virtual DbSet<AppRole> AppRoles { get; set; }
+        public virtual DbSet<AcademicYear> AcademicYears { get; set; }
+        public virtual DbSet<Semester> Semesters { get; set; }
 
 
     }

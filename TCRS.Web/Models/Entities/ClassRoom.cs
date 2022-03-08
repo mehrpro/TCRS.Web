@@ -15,9 +15,13 @@ namespace TCRS.Web.Models.Entities
         public Person Person { get; set; }
         public int LessonID_FK { get; set; }
         public Lesson Lesson { get; set; }
+        public int SemesterID_FK { get; set; }
+        public Semester Semester { get; set; }
+
         public short StudentNumber { get; set; }
         public bool IsActive { get; set; }
         public DateTime RegisterDate { get; set; }
+
 
     }
 }

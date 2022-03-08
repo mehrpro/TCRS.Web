@@ -2,27 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using TCRS.Web.IServices;
 using TCRS.Web.Models;
 using TCRS.Web.Models.Entities;
+using TCRS.Web.ViewModels.ClassRoomViewModel;
 
 namespace TCRS.Web.Controllers
 {
     public class ClassRoomsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IClassRoomService _classRoomService;
+        private readonly IMapper _mapper;
 
-        public ClassRoomsController(ApplicationDbContext context)
+
+        public ClassRoomsController(IClassRoomService classRoomService, IMapper mapper)
         {
-            _context = context;
+            _classRoomService = classRoomService;
+            _mapper = mapper;
         }
 
         // GET: ClassRooms
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.ClassRooms.Include(c => c.Lesson).Include(c => c.Person);
+            var result = _classRoomService.GetAll();
+            var resultMap = _mapper.Map<IEnumerable<ClassRoomIndexViewModel>>(result);
             return View(await applicationDbContext.ToListAsync());
         }
 

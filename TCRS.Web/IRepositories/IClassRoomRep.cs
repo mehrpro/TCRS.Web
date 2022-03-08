@@ -10,7 +10,7 @@ namespace TCRS.Web.IRepositories
 {
     public interface IClassRoomRep : IRepository<ClassRoom>
     {
-        Task UpdateClassRoom(ClassRoom model);
+        void UpdateClassRoom(ClassRoom model);
 
     }
 
@@ -26,7 +26,7 @@ namespace TCRS.Web.IRepositories
             get { return Context as ApplicationDbContext; }
         }
 
-        public async Task UpdateClassRoom(ClassRoom model)
+        public void UpdateClassRoom(ClassRoom model)
         {
             var local = ApplicationDbContext.ClassRooms.Local.FirstOrDefault(entry => entry.ClassID.Equals(model.ClassID));
             if (local != null)

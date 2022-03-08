@@ -1,0 +1,44 @@
+﻿@model IEnumerable<TCRS.Web.ViewModels.AcademicYearViewModel.AcademicYearIndexViewModel>
+
+@{
+    ViewData["Title"] = "فهرست";
+}
+
+<h3>سال تحصیلی</h3>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">افزودن</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.YearTitle)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.YearTitle)
+                </td>
+
+                <td>
+                    <a asp-action="Details" class="btn btn-outline-primary btn-sm" asp-route-id="@item.YearID">جزئیات</a> |
+                    @if (item.IsActive)
+                    {
+                        <a class="btn btn-warning btn-sm">فعال</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-warning btn-sm">غیرفعال</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

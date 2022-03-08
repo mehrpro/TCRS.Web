@@ -34,6 +34,9 @@ namespace TCRS.Web
             services.AddTransient<IClassRegisterService, ClassRegisterService>();
             services.AddTransient<IClassTimeTypeService, ClassTimeTypeService>();
             services.AddTransient<ILessonService, LessonService>();
+            services.AddTransient<ISemesterService, SemesterService>();
+            services.AddTransient<IAcademicYearService, AcademicYearService>();
+            services.AddTransient<IClassRoomService, ClassRoomService>();
 
             services.AddAutoMapper(typeof(Startup));
             services.AddDbContextPool<ApplicationDbContext>(opts =>

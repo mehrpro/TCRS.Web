@@ -24,6 +24,28 @@ namespace TCRS.Web.Models.Configure
                 .OnDelete(DeleteBehavior.NoAction);
 
 
+            builder.HasData(new Lesson
+            {
+                LessonID = 1,
+                LessonTitle = "مبانی برنامه نویسی وب",
+                NumberOfCourseUnits = 2,
+                LessonCode = "112233",
+                PresentationCode = "332211",
+                IsActive = true,
+
+            },
+                new Lesson
+                {
+                    LessonID = 2,
+                    LessonTitle = "معارف اسلامی",
+                    NumberOfCourseUnits = 2,
+                    LessonCode = "225563",
+                    PresentationCode = "958574",
+                    IsActive = true,
+
+                });
+
+
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TCRS.Web.Models.Entities
 {
@@ -12,6 +13,8 @@ namespace TCRS.Web.Models.Entities
         public string SemesterTitle { get; set; }
         public int AcademicYearID_FK { get; set; }
         public AcademicYear AcademicYear { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
         public bool IsActive { get; set; }
 
         public virtual ICollection<ClassRoom> ClassRooms { get; set; }

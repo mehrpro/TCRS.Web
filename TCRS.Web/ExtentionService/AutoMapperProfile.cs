@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TCRS.Web.Models.Entities;
+using TCRS.Web.ViewModels.AcademicYearViewModel;
 using TCRS.Web.ViewModels.ClassTimeTypeViewModel;
 using TCRS.Web.ViewModels.ClassTypeViewModel;
 using TCRS.Web.ViewModels.LessonViewModel;
@@ -23,6 +24,10 @@ namespace TCRS.Web.ExtentionService
             CreateMap<Lesson, LessonCreateViewModel>().ReverseMap();
             CreateMap<Lesson, LessonIndexViewModel>().ReverseMap();
             CreateMap<Lesson, LessonEditViewModel>().ReverseMap();
+            CreateMap<AcademicYear, AcademicYearIndexViewModel>().ReverseMap();
+            CreateMap<AcademicYear, AcademicYearCreateViewModel>().ReverseMap();
+            CreateMap<AcademicYear, AcademicYearEditViewModel>().ReverseMap();
+
 
 
         }

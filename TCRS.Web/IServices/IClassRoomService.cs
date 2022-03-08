@@ -65,10 +65,12 @@ namespace TCRS.Web.IServices
                     ClassID = item.ClassID,
                     LessonCode = item.Lesson.LessonCode,
                     LessonTitle = item.Lesson.LessonTitle,
-                    ProfessorCount = item.LessonID_FK
+                    ProfessorCount = item.LessonID_FK,
                     IsActive = false
                 });
             }
+
+            return resultIndex;
         }
 
         public async Task<IEnumerable<ClassRoom>> GetAll()
@@ -93,13 +95,13 @@ namespace TCRS.Web.IServices
 
         public async Task<bool> GetByName(string name)
         {
-            var resultFind = await _unitOfWork.ClassRoom.FirstOrDefaultAsync(x => x. == name);
+            var resultFind = await _unitOfWork.ClassRoom.FirstOrDefaultAsync(x => x.Lesson.LessonTitle == name);
             return Convert.ToBoolean(resultFind);
         }
 
         public async Task<bool> Update(ClassRoom model)
         {
-            await _unitOfWork.ClassRoom.UpdateClassRoom(model);
+            _unitOfWork.ClassRoom.UpdateClassRoom(model);
             var result = await _unitOfWork.CommitAsync();
             return Convert.ToBoolean(result);
 

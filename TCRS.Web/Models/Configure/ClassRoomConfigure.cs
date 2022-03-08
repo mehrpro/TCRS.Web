@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TCRS.Web.Models.Entities;
 
@@ -15,6 +16,8 @@ namespace TCRS.Web.Models.Configure
             builder.Property(x => x.LessonID_FK).IsRequired();
             builder.Property(x => x.SemesterID_FK).IsRequired();
             builder.Property(x => x.RegisterDate).HasColumnType("datetime");
+
+
         }
     }
 }

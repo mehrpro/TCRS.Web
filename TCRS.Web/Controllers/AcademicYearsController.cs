@@ -27,7 +27,6 @@ namespace TCRS.Web.Controllers
         {
             var result = await _academicYearService.GetAll();
             var resultMap = _mapper.Map<IEnumerable<AcademicYearIndexViewModel>>(result);
-
             return View(resultMap);
         }
 
